@@ -1,87 +1,38 @@
 #include <iostream>
-
-class Node{
-    public:
-    int data;
-    Node* left = nullptr;
-    Node* right = nullptr;
-};
-
-Node* createNode(int data){
-    Node* newNode = new Node();
-    newNode->data = data;
-    newNode->left = newNode->right = nullptr;
-    return newNode;
-}
-
-
-int countNode(Node* root){
-    if(root == nullptr)
-        return 0;
-
-    int left_count = countNode(root->left);
-    int right_count = countNode(root->right);
-
-    return 1 + left_count + right_count;
-}
-
-bool exists(Node* root){
-    if(root == nullptr)
-        return false;
-
-    if(root->data == target)
-        return true;
-
-    return exists(root->left, target) || 
-           exists(root->right, target);
-}
-
-//preorder
-void printTree(Node* root){
-    if(root == nullptr)
-        return;
-
-    std::cout<<root->data << std::endl;
-    printTree(root->left);
-    printTree(root->right);
-}
-
-void inorder(Node* root){
-    if(root == nullptr)
-        return;
-
-        inorder(root->left);
-        std::cout<<root->data<<std::endl;
-        inorder(root->right);
-
-}
-
-void postorder(Node* root){
-    if(root == nullptr)
-        return;
-
-        postorder(root->left);
-        postorder(root->right);
-        std::cout<<root->data<<std::endl;
-}
+#include "headers/print_tree.hpp"
+#include "headers/node_class.hpp"
+#include "headers/equations.hpp"
 
 int main(){
     Node* root = nullptr;
     int target = 3;
      
-    root = createNode(1);
-    root->left = createNode(2);
-    root->right = createNode(3);
-    root->left->left = createNode(4);
+    root = Node::createNode(1);
+    root->left = Node::createNode(2);
+    root->right = Node::createNode(3);
+    root->left->left = Node::createNode(4);
 
     std::cout<<"Preorder: "<<std::endl;
-    printTree(root);
-
+    preorder(root);
+    std::cout<<std::endl;
     std::cout<<"Inorder: "<<std::endl;
     inorder(root);
-
+    std::cout<<std::endl;
     std::cout<<"Postorder: "<<std::endl;
     postorder(root);
+    std::cout<<std::endl;
+
+    std::cout<<"Num of nodes in this tree: ";
+    std::cout<<countNode(root)<<std::endl;
+
+    bool check = exists(root, target);
+    if(check)
+        std::cout<<"Num: " << target << " exists in this tree!" << std::endl;
+    else
+        std::cout<<"Num:" << target << "doesnt exists in this tree!" << std::endl;
+
+    delete root->left;
+    delete root->right;
     delete root;
 
     return 0;
