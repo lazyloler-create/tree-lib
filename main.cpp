@@ -3,6 +3,8 @@
 #include "headers/node_class.hpp"
 #include "headers/equations.hpp"
 
+
+//main is only for function tests
 int main(){
     Node* root = nullptr;
     int target = 3;
